@@ -1,0 +1,62 @@
+You've stumbled into the Fat Dragon, wanderer, but you seem to
+be lost....
+
+Suddenly, right before you, a grizzled-looking hacker with long,
+scraggly hair and copious amounts of facial scruff materializes,
+seemingly from thin air.  He looks kind of like Richard
+Stallman, but younger and thinner.
+
+"So you want some help, eh?" he says, eying you up and down.
+"Well, they used to say that Unix helps those who help
+themselves, but things are a bit different around here, and
+besides, that was a long time ago."
+
+"Listen, you're logged into fat-dragon.org, which is sort of
+a cross between a BBS, a MUD/MUX/MUSH and a public access
+time-sharing system running Unix.  This is the default user
+interface; it's a special shell that implements the BBS and
+MUD functionality.
+
+"The system is map-based.  You can navigate by using the
+cardinal directions ('north', 'south', 'east' and 'west') as
+well as 'up' and 'down'.  You can look around by typing, 'look';
+that will tell you where else you can go from a particular area.
+You can go directly to a specific area by using the 'teleport'
+command; 'cd' is an alias for 'teleport'.
+
+"A lot of Unix commands are available, but if you really want to
+use Unix, I suggest going to a real shell.  You can do that at
+any time by typing 'unix'; that puts you into 'bash' by
+default.  If you want to use a different shell when you login,
+then run 'chsh' to change to something else.  You can always
+re-enter the bbs by running the 'bbs' command.
+
+"In particular, you can only run the following Unix commands:
+
+	bbs	(access the Notesfile BBS)
+        cat
+	clear
+	help    (what you're reading right now)
+	fortune
+	lc	(this is the same as ls for these purposes)
+	ls
+	man
+        passwd
+        pg      (sort of like more)
+	ps
+	pwd
+	who
+	unix	(access the Unix shell)
+
+"Also, you can leave by typing any of exit, quit, bye,
+logout or logoff.
+
+"Some of these commands don't do quite what you're expecting
+them to do, but others will be very familiar if you are used to
+Unix or Linux.  There are also some surprises, so be careful.
+
+"Good luck, kid.
+
+With that, he disappears into a fog of line printer chaf and
+IBM 1403 ribbons and a coredump from the CMD JSYS leaving
+you alone and back at...
