@@ -9,13 +9,14 @@ struct rcommand {
 #define	NELEM(A)	(sizeof(A) / sizeof((A)[0]))
 #define	STREQ(A, B)	(strcmp((A), (B)) == 0)
 
+struct rcommand *resh_parse(char *str);
 int tokenizeq(char *str, char *toks[], int maxtoks);
-int run_command(char *cmd, int argc, char *argv[]);
+int run_command(const char *cmd, int argc, char *argv[]);
 char *resh_read(const char *prompt);
 int openr(const char *filename);
 int spawn(int argc, char *argv[]);
 int getch(int fd);
 int dynegg(char *cmd);
-int navigate(struct rcommand *c);
+int navigate(const char *cmd, int argc, char *argv[]);
 
 #endif	/* !RESH_H__ */

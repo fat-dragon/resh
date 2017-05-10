@@ -35,7 +35,7 @@ dynegg(char *cmd)
 }
 
 int
-run_command(char *cmd, int argc, char *argv[])
+run_command(const char *cmd, int argc, char *argv[])
 {
 	char *p, path[128];
 	void *h, *f;

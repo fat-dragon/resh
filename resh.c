@@ -169,9 +169,7 @@ resh_eval(struct rcommand *cmd)
 		printf("resh: Terminated by signal 15.\n");
 		exit(EXIT_SUCCESS);
 	}
-	if (navigate(cmd))
-		return;
-	if (dynegg(c))
+	if (navigate(c, cmd->argc, cmd->argv) || dynegg(c))
 		return;
 	run_command(c, cmd->argc, cmd->argv);
 }
