@@ -8,9 +8,7 @@ const int HIGH = 0x80;
 static void
 eggbeater(unsigned char egg[], size_t egglen)
 {
-	size_t i;
-
-	for (i = 0; i < egglen; i++)
+	for (size_t i = 0; i < egglen; i++)
 		putchar(egg[i] ^ HIGH);
 	fflush(stdout);
 }
@@ -69,14 +67,12 @@ cat <<EOF
 int
 tryegg(char *cmd)
 {
-	struct dispatch *p;
-
-	for (p = eggs; p->name != NULL; p++)
+	for (struct dispatch *p = eggs; p->name != NULL; p++)
 		if (strcmp(cmd, p->name) == 0) {
 			(p->function)();
-			return(1);
+			return 1;
 		}
 
-	return(0);
+	return 0;
 }
 EOF

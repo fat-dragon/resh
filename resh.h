@@ -18,5 +18,9 @@ int spawn(int argc, char *argv[]);
 int getch(int fd);
 int dynegg(char *cmd);
 int navigate(const char *cmd, int argc, char *argv[]);
+char *estrdup(const char *s);
+char *getvar(const char *name);
+void setvar(const char *name, const char *value);
+void unsetvar(const char *name);
 
 #endif	/* !RESH_H__ */

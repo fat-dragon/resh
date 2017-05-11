@@ -33,12 +33,11 @@ die(int signo)
 void
 initsigs(void)
 {
-	int i;
 	struct sigaction sa;
 
 	memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = SIG_IGN;
-	for (i = 0; i < NSIG; i++)
+	for (int i = 0; i < NSIG; i++)
 		sigaction(i, &sa, NULL);
 	sa.sa_handler = SIG_DFL;
 	sigaction(SIGCHLD, &sa, NULL);
@@ -79,7 +78,7 @@ void
 initenv(void)
 {
 	extern volatile char **environ;
-	char **pp, *tz, *term;
+	char *tz, *term;
 
 	tz = getenv("TZ");
 	term = getenv("TERM");
@@ -88,7 +87,7 @@ initenv(void)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	for (pp = env; *pp; pp++)
+	for (char **pp = env; *pp; pp++)
 		if (putenv(*pp) < 0) {
 			perror("putenv");
 			printf("%s\n", *pp);
@@ -123,15 +122,22 @@ initpasswd(void)
 }
 
 void
+initnav(void)
+{
+	char *cmd[] = { "teleport", "entry" };
+	navigate(*cmd, NELEM(cmd), cmd);
+}
+
+void
 resh_init(void)
 {
+	printf("Welcome to the Fat Dragon.  Type 'help' if you are lost.\n\n");
 	initsigs();
 	initfds();
 	initdir();
 	initenv();
 	initpasswd();
-
-	printf("Welcome to the Fat Dragon.  Type 'help' if you are lost.\n");
+	initnav();
 }
 
 struct rcommand *
@@ -139,8 +145,7 @@ resh_parse(char *str)
 {
 	struct rcommand *c;
 
-	c = malloc(sizeof(*c));
-	memset(c, 0, sizeof(*c));
+	c = calloc(1, sizeof(*c));
 	c->argc = tokenizeq(str, c->argv, NELEM(c->argv) - 1);
 	c->argv[c->argc] = NULL;
 
@@ -186,7 +191,7 @@ main(void)
 	char *str;
 
 	resh_init();
-	for ( ; ; ) {
+	for (;;) {
 		str = resh_read("fat-dragon; ");
 		if (str == NULL)
 			break;

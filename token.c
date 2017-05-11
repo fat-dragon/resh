@@ -7,13 +7,10 @@
 char *
 lower(char *str)
 {
-	char	*p;
 
-	for (p = str; *p != '\0'; p++) {
-		if (isupper(*p)) {
+	for (char *p = str; *p != '\0'; p++)
+		if (isupper(*p))
 			*p = tolower(*p);
-		}
-	}
 
 	return(str);
 }
@@ -21,13 +18,12 @@ lower(char *str)
 char *
 unquote(char *str)
 {
-	char	*s, *d;
+	char *s, *d;
 
 	for (s = d = str; *s != '\0'; *d++ = *s++) {
 		if (*s == '\'' || *s == '\\') {
-			if (*(s + 1) == '\0') {
+			if (*(s + 1) == '\0')
 				*s = '\0';
-			}
 			s += (*(s + 1) != '\0');
 		}
 	}
@@ -39,7 +35,7 @@ unquote(char *str)
 static char *
 quotedtoken(char *str)
 {
-	char	*p;
+	char *p;
 
 	for (p = str; *p != '\0'; p++) {
 		if (*p == '\'') {
@@ -59,7 +55,7 @@ quotedtoken(char *str)
 static char *
 simpletoken(char *str)
 {
-	char	*p;
+	char *p;
 
 	for (p = str; *p != '\0' && *p != '\'' && !isspace(*p); p++)
 		;
@@ -70,8 +66,8 @@ simpletoken(char *str)
 int
 tokenizeq(char *str, char *toks[], int maxtoks)
 {
-	char	*p;
-	int	ntoks;
+	char *p;
+	int ntoks;
 
 	if (str == NULL || toks == NULL || maxtoks <= 0)
 		return(-1);

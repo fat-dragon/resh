@@ -1,3 +1,4 @@
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,14 +7,6 @@
 #include "resh.h"
 
 const char *world = "/fat-dragon/lib/resh/world";
-
-static char *room;
-static char *north;
-static char *south;
-static char *east;
-static char *west;
-static char *up;
-static char *down;
 
 static void
 stare(const char *at)
@@ -33,76 +26,56 @@ stare(const char *at)
 	spawn(NELEM(args), args);
 }
 
-static const char *
-directionor(const char *d, const char *def)
-{
-	if (STREQ(d, "north"))
-		return north;
-	if (STREQ(d, "south"))
-		return south;
-	if (STREQ(d, "east"))
-		return east;
-	if (STREQ(d, "west"))
-		return west;
-	if (STREQ(d, "up"))
-		return up;
-	if (STREQ(d, "down"))
-		return down;
-	return def;
-}
-
 static void
 look(int argc, char *argv[])
 {
-	const char *d;
+	const char *room = getvar("room");
+	const char *d = NULL;
 
-	if (argc == 1) {
-		if (room == NULL) {
-			printf("You are nowhere to see anything.\n");
-			return;
-		}
-		stare(room);
+	if (argc > 3 || (argc == 3 && !STREQ(argv[1], "at"))) {
+		warnx("...I don't understand what you want to look at.");
 		return;
 	}
-	if (argc != 2) {
-		printf("...I don't understand what you want to look at.\n");
+	if (argc == 3)
+		d = argv[2];
+	if (argc == 2)
+		d = argv[1];
+	if (d != NULL)
+		room = getvar(d);
+	if (room == NULL)
+		room = d;
+	if (room == NULL) {
+		if (argc == 1)
+			warnx("You are nowhere to see anything.");
+		else
+			warnx("There's nothing there to look at.");
 		return;
 	}
-	d = argv[1];
-	stare(directionor(d, NULL));
+	stare(room);
 }
 
 static void
 navreset()
 {
-	free(room);
-	room = NULL;
-	free(north);
-	north = NULL;
-	free(south);
-	south = NULL;
-	free(east);
-	east = NULL;
-	free(west);
-	west = NULL;
-	free(up);
-	up = NULL;
-	free(down);
-	down = NULL;
+	unsetvar("room");
+	unsetvar("north");
+	unsetvar("south");
+	unsetvar("east");
+	unsetvar("west");
+	unsetvar("up");
+	unsetvar("down");
+	unsetvar("notesfiles");
 }
 
-static char *
-estrdup(const char *s)
+static int
+knowntok(const char *c)
 {
-	char *p;
+	const char *ts[] = { "north", "south", "east", "west", "up", "down", "notesfiles" };
 
-	p = strdup(s);
-	if (p == NULL) {
-		fprintf(stderr, "Panic zero.  Rebooting...\n");
-		exit(1);
-	}
-
-	return p;
+	for (int i = 0; i < NELEM(ts); i++)
+		if (STREQ(c, ts[i]))
+			return 1;
+	return 0;
 }
 
 static void
@@ -113,42 +86,39 @@ gotoroom(const char *dest)
 	char metafile[1024];
 	char line[1024];
 
+	if (dest == NULL) {
+		warnx("You can't get there form here.");
+		return;
+	}
 	snprintf(roomdir, sizeof roomdir, "%s/%s", world, dest);
 	if (access(roomdir, X_OK) < 0) {
-		fprintf(stderr, "You can't go in there!\n");
+		warnx("You can't go in there!");
 		return;
 	}
 	snprintf(metafile, sizeof metafile, "%s/meta", roomdir);
 	fp = fopen(metafile, "r");
 	if (fp == NULL) {
-		fprintf(stderr, "You see a roadblock ahead.\n");
+		warnx("You see a roadblock ahead.");
 		return;
 	}
 	navreset();
-	room = estrdup(dest);
+	setvar("room", dest);
 	while (fgets(line, sizeof line, fp) != NULL) {
-		const char *c, *d;
 		struct rcommand *cmd = resh_parse(line);
 		if (cmd->argc != 2) {
-			fprintf(stderr, "Strange number of tokens; meta!?\n");
+			warnx("Strange number of tokens; meta file!?");
 			continue;
 		}
-		c = cmd->argv[0];
-		d = cmd->argv[1];
-		if (STREQ(c, "north"))
-			north = estrdup(d);
-		if (STREQ(c, "south"))
-			south = estrdup(d);
-		if (STREQ(c, "east"))
-			east = estrdup(d);
-		if (STREQ(c, "west"))
-			west = estrdup(d);
-		if (STREQ(c, "up"))
-			up = estrdup(d);
-		if (STREQ(c, "down"))
-			down = estrdup(d);
+		if (!knowntok(cmd->argv[0]))
+			continue;
+		setvar(cmd->argv[0], cmd->argv[1]);
+		if (!STREQ(cmd->argv[1], getvar(cmd->argv[0])))
+			errx(1, "Bad value! expected '%s', got '%s'\n",
+			    cmd->argv[1], getvar(cmd->argv[0]));
 	}
 	fclose(fp);
+	if (getvar("notesfiles") == NULL)
+		setvar("notesfiles", "fat-dragon");
 	stare(dest);
 }
 
@@ -156,11 +126,11 @@ static void
 teleport(int argc, char *argv[])
 {
 	if (argc < 2) {
-		fprintf(stderr, "Can't teleport to nowhere!\n");
+		warnx("Can't teleport to nowhere!");
 		return;
 	}
 	if (argc > 2) {
-		fprintf(stderr, "Can't teleport to more than one place at once!\n");
+		warnx("Can't teleport to more than one place at once!");
 		return;
 	}
 	gotoroom(argv[1]);
@@ -173,7 +143,7 @@ cardinal(int argc, char *argv[])
 		printf("Huh!?\n");
 		return;
 	}
-	gotoroom(directionor(argv[0], NULL));
+	gotoroom(getvar(argv[0]));
 }
 
 int

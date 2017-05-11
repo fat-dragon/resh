@@ -87,3 +87,15 @@ getch(int fd)
 		return(-n);
 	return(buf[0]);
 }
+
+char *
+estrdup(const char *s)
+{
+	char *p;
+
+	p = strdup(s);
+	if (p == NULL)
+		err(1, "Panic zero.  Rebooting...\n");
+
+	return p;
+}

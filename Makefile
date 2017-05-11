@@ -3,14 +3,14 @@
 O=		o
 D=		so
 
-CC=		cc
+CC=		egcc
 RM=		rm
-CFLAGS=		-Wall -Werror -g -I.
+CFLAGS=		-Wall -Werror -g -I. -std=c99
 LDFLAGS=	
 LIBS=		-lreadline -ltermcap
 
 PROG=		resh
-OBJS=		resh.$O dyncmd.$O nav.$O read.$O token.$O util.$O
+OBJS=		resh.$O dyncmd.$O nav.$O read.$O token.$O util.$O var.$O
 EGGS=		eggs/catalog.egg eggs/chad.egg eggs/cls.egg eggs/cmd.egg \
 		eggs/dir.egg eggs/head.egg eggs/joshua.egg eggs/porter.egg \
 		eggs/push.egg

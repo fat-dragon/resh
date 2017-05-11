@@ -72,7 +72,7 @@ page(FILE *fp)
 	int i, ch;
 	const char *msg = "Press <space> to continue, 'q' to quit";
 
-	for ( ; ; ) {
+	for (;;) {
 		for (i = 0; i < (rows - 1); i += ((strlen(buf) + columns - 1) / columns)) {
 			if (fgets(buf, sizeof(buf), fp) == NULL)
 				return;
