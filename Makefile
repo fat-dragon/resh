@@ -17,7 +17,7 @@ EGGS=		eggs/catalog.egg eggs/chad.egg eggs/cls.egg eggs/cmd.egg \
 
 SHOBJS=		bbs.$D cat.$D clear.$D eggs.$D env.$D fortune.$D help.$D \
 		lc.$D ls.$D man.$D passwd.$D pg.$D ps.$D \
-		pwd.$D unix.$D who.$D
+		pwd.$D sync.$D unix.$D who.$D
 
 all:		$(PROG) pg
 
