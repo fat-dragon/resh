@@ -45,7 +45,6 @@ getvar(const char *name)
 	return NULL;
 }
 
-#include <stdio.h>
 void
 setvar(const char *name, const char *value)
 {
@@ -57,7 +56,7 @@ setvar(const char *name, const char *value)
 	for (p = vars[h]; p != NULL; p = p->next) {
 		if (STREQ(name, p->key)) {
 			free(p->value);
-			p->value = strdup(value);
+			p->value = estrdup(value);
 			return;
 		}
 	}

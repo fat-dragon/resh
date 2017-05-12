@@ -85,6 +85,21 @@ knowntok(const char *c)
 	return 0;
 }
 
+/*
+ * This is unfortunate, but has to do with the way we
+ * substitute things based on contents of vars.  It
+ * would be easier in a garbage collected language.
+ */
+char *
+resetroom(const char *dest)
+{
+	char *sdest = estrdup(dest);
+	navreset();
+	setvar("room", sdest);
+	free(sdest);
+	return getvar("room");
+}
+
 static void
 gotoroom(const char *dest)
 {
@@ -108,8 +123,7 @@ gotoroom(const char *dest)
 		warnx("You see a roadblock ahead.");
 		return;
 	}
-	navreset();
-	setvar("room", dest);
+	dest = resetroom(dest);
 	while (fgets(line, sizeof line, fp) != NULL) {
 		struct rcommand *cmd = resh_parse(line);
 		if (cmd->argc != 2) {
@@ -133,11 +147,11 @@ static void
 teleport(int argc, char *argv[])
 {
 	if (argc < 2) {
-		warnx("Can't teleport to nowhere!");
+		warnx("Where do you want to teleport?");
 		return;
 	}
 	if (argc > 2) {
-		warnx("Can't teleport to more than one place at once!");
+		warnx("You cannot teleport to more than one place at once!");
 		return;
 	}
 	gotoroom(argv[1]);
@@ -147,7 +161,7 @@ static void
 cardinal(int argc, char *argv[])
 {
 	if (argc != 1) {
-		printf("Huh!?\n");
+		warnx("Huh!?\n");
 		return;
 	}
 	gotoroom(getvar(argv[0]));
