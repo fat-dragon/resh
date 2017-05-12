@@ -44,4 +44,4 @@ install:	all
 .SUFFIXES:	.so
 
 .c.$D:
-		$(CC) $(CFLAGS) -shared -fPIC $< util.o -o $@ $(LDFLAGS) $(LIBS)
+		$(CC) $(CFLAGS) -shared -fPIC $< util.o var.o -o $@ $(LDFLAGS) $(LIBS)
