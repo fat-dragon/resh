@@ -68,12 +68,13 @@ init(void)
 void
 page(FILE *fp)
 {
+	static int i = 0;
 	char buf[2048];
-	int i, ch;
+	int ch;
 	const char *msg = "Press <space> to continue, 'q' to quit";
 
 	for (;;) {
-		for (i = 0; i < (rows - 1); i += ((strlen(buf) + columns - 1) / columns)) {
+		for (; i < (rows - 1); i += ((strlen(buf) + columns - 1) / columns)) {
 			if (fgets(buf, sizeof(buf), fp) == NULL)
 				return;
 			fputs(buf, stdout);
@@ -84,6 +85,7 @@ page(FILE *fp)
 		printf("\r%-*s\r", (int)strlen(msg), " ");
 		if (ch == 'Q' || ch == 'q')
 			break;
+		i = 0;
 	}
 }
 

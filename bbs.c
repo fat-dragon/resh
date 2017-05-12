@@ -5,5 +5,5 @@ int
 main(int argc, char *argv[])
 {
 	char *args[] = { "/fat-dragon/bin/notes", "fat-dragon", NULL };
-	return(spawn(NELEM(args), args));
+	return(spawn(NELEM(args)-1, args));
 }

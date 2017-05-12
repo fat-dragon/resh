@@ -5,5 +5,5 @@ int
 main(int argc, char *argv[])
 {
 	char *args[] = { "pg", "/fat-dragon/lib/resh/resh-help", NULL };
-	return(spawn(NELEM(args), args));
+	return(spawn(NELEM(args)-1, args));
 }

@@ -5,5 +5,5 @@ int
 main(int argc, char *argv[])
 {
 	char *args[] = { "/usr/games/fortune", NULL };
-	return(spawn(NELEM(args), args));
+	return(spawn(NELEM(args)-1, args));
 }

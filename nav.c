@@ -12,7 +12,9 @@ static void
 stare(const char *at)
 {
 	char descfile[1024];
-	char *args[] = { "pg", descfile, NULL };
+	char navfile[1024];
+	char *args[] = { "pg", descfile, navfile, NULL };
+	int nargs = NELEM(args) - 1;
 
 	if (at == NULL) {
 		printf("You are nowhere to see anything.\n");
@@ -23,7 +25,12 @@ stare(const char *at)
 		printf("You see nothing.\n");
 		return;
 	}
-	spawn(NELEM(args), args);
+	snprintf(navfile, sizeof navfile, "%s/%s/navdesc", world, at);
+	if (access(navfile, R_OK) < 0) {
+		nargs--;
+		args[nargs] = NULL;
+	}
+	spawn(nargs, args);
 }
 
 static void
