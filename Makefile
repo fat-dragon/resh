@@ -5,7 +5,7 @@ D=		so
 
 CC=		egcc
 RM=		rm
-CFLAGS=		-Wall -Werror -g -I. -std=c99
+CFLAGS=		-Wall -Werror -g -I. -std=c11
 LDFLAGS=	
 LIBS=		-lreadline -ltermcap
 
