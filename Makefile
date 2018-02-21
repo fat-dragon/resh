@@ -15,9 +15,18 @@ EGGS=		eggs/catalog.egg eggs/chad.egg eggs/cls.egg eggs/cmd.egg \
 		eggs/dir.egg eggs/head.egg eggs/joshua.egg eggs/porter.egg \
 		eggs/push.egg
 
-SHOBJS=		bbs.$D cat.$D clear.$D eggs.$D env.$D fortune.$D help.$D \
-		lc.$D ls.$D man.$D passwd.$D pg.$D ps.$D \
-		pwd.$D sync.$D unix.$D who.$D
+SHOBJS=		bbs.$D \
+		cat.$D clear.$D \
+		df.$D \
+		eggs.$D env.$D \
+		finger.$D fortune.$D \
+		help.$D \
+		lc.$D ls.$D \
+		man.$D mc.$D \
+		passwd.$D pg.$D ps.$D pwd.$D \
+		sync.$D \
+		unix.$D \
+		who.$D
 
 all:		$(PROG) pg
 

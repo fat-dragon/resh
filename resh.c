@@ -16,6 +16,7 @@
 
 char *env[] = {
 	"SHELL=/usr/local/bin/bash",
+	"BLOCKSIZE=1k",
 	"EDITOR=nano",
 	"PAGER=pg",
 	"PATH=/fat-dragon/lib/resh/bin:/fat-dragon/bin:/usr/local/bin:/usr/bin:/bin",

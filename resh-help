@@ -1,4 +1,5 @@
-You've stumbled into the Fat Dragon, wanderer, but you seem to
+You've stumbled into the Fat Dragon.  You find yourself standing
+near a copse of trees in the middle of a field, but you seem to
 be lost....
 
 Suddenly, right before you, a grizzled-looking hacker with long,
@@ -31,16 +32,23 @@ default.  If you want to use a different shell when you login,
 then run 'chsh' to change to something else.  You can always
 re-enter the bbs by running the 'bbs' command.
 
-"In particular, you can only run the following Unix commands:
+"If you want to explore Unix but aren't used to Unix already,
+then check out Midnight Commander: run it by typing 'mc'.
+
+"You can run the following Unix commands directly:
 
 	bbs	(access the Notesfile BBS)
         cat
 	clear
+	df
+	env	(print environment variables)
 	help    (what you're reading right now)
+	finger
 	fortune
 	lc	(this is the same as ls for these purposes)
 	ls
 	man
+	mc	(midnight commander)
         passwd
         pg      (sort of like more)
 	ps
