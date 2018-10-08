@@ -79,10 +79,11 @@ void
 initenv(void)
 {
 	extern volatile char **environ;
-	char *tz, *term;
+	char *tz, *term, *home;
 
 	tz = getenv("TZ");
 	term = getenv("TERM");
+	home = getenv("HOME");
 	environ = calloc(1, sizeof(char *));
 	if (environ == NULL) {
 		perror("malloc");
@@ -98,6 +99,8 @@ initenv(void)
 		setenv("TZ", tz, 1);
 	if (term != NULL)
 		setenv("TERM", term, 1);
+	if (home != NULL)
+		setenv("HOME", home, 1);
 }
 
 void
